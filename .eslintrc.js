@@ -1,3 +1,5 @@
+const OFF = 0
+
 module.exports = {
   root: true,
   env: {
@@ -10,6 +12,13 @@ module.exports = {
   },
   extends: ['@nuxtjs', 'plugin:nuxt/recommended', 'prettier'],
   plugins: [],
-  // add your custom rules here
-  rules: {}
+  rules: {},
+  overrides: [
+    {
+      files: ['**/*.vue'],
+      rules: {
+        'vue/multi-word-component-names': OFF
+      }
+    }
+  ]
 }
