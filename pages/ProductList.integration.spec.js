@@ -75,4 +75,62 @@ describe('ProductList - integration', () => {
 
     expect(wrapper.text()).toContain('An error occurred while loading the products')
   })
+
+  it('should filter the product list when a search is performed', async () => {
+    const products = [
+      ...server.createList('product', 8),
+      server.create('product', { name: 'Smart Watch' }),
+      server.create('product', { name: 'Quartz Watch' })
+    ]
+
+    axios.get.mockReturnValue(Promise.resolve({ data: { products } }))
+
+    const wrapper = mount(ProductList, {
+      mocks: {
+        $axios: axios
+      }
+    })
+
+    await Vue.nextTick()
+
+    const search = wrapper.findComponent(Search)
+    search.find('input[type="search"]').setValue('watch')
+
+    await search.find('form').trigger('submit')
+
+    const productCards = wrapper.findAllComponents(ProductCard)
+
+    expect(wrapper.vm.searchTerm).toBe('watch')
+    expect(productCards).toHaveLength(2)
+  })
+
+  it('should reset the filter on the product list when a search is cleared', async () => {
+    const products = [
+      ...server.createList('product', 8),
+      server.create('product', { name: 'Smart Watch' }),
+      server.create('product', { name: 'Quartz Watch' })
+    ]
+
+    axios.get.mockReturnValue(Promise.resolve({ data: { products } }))
+
+    const wrapper = mount(ProductList, {
+      mocks: {
+        $axios: axios
+      }
+    })
+
+    await Vue.nextTick()
+
+    const search = wrapper.findComponent(Search)
+
+    search.find('input[type="search"]').setValue('watch')
+    await search.find('form').trigger('submit')
+    search.find('input[type="search"]').setValue('')
+    await search.find('form').trigger('submit')
+
+    const productCards = wrapper.findAllComponents(ProductCard)
+
+    expect(wrapper.vm.searchTerm).toBe('')
+    expect(productCards).toHaveLength(10)
+  })
 })
