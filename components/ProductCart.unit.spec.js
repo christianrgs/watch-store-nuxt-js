@@ -5,6 +5,18 @@ import { makeServer } from '@/miragejs/server'
 describe('ProductCard - unit', () => {
   let server
 
+  const mountProductCard = () => {
+    const product = server.create('product')
+
+    const wrapper = mount(ProductCard, {
+      propsData: {
+        product
+      }
+    })
+
+    return { wrapper, product }
+  }
+
   beforeEach(() => {
     server = makeServer({ environment: 'test' })
   })
@@ -14,16 +26,20 @@ describe('ProductCard - unit', () => {
   })
 
   it('should mount the component', () => {
-    const product = server.create('product')
-
-    const wrapper = mount(ProductCard, {
-      propsData: {
-        product
-      }
-    })
+    const { wrapper, product } = mountProductCard()
 
     expect(wrapper.vm).toBeDefined()
     expect(wrapper.text()).toContain(product.name)
     expect(wrapper.text()).toContain(product.price)
+  })
+
+  it('should emit the event addToCart with product object when button gets clicked', async () => {
+    const { wrapper, product } = mountProductCard()
+
+    await wrapper.find('button').trigger('click')
+
+    expect(wrapper.emitted().addToCart).toBeTruthy()
+    expect(wrapper.emitted().addToCart.length).toBe(1)
+    expect(wrapper.emitted().addToCart[0]).toEqual([{ product }])
   })
 })
