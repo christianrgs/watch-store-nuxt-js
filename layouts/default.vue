@@ -69,7 +69,7 @@
         </nav>
       </div>
     </header>
-    <cart :products="products" :is-open="isCartOpen" @close="toggleCart" />
+    <cart :products="products" :is-open="isCartOpen" />
     <nuxt />
     <footer class="bg-gray-200">
       <div class="container mx-auto px-6 py-3 flex justify-between items-center">

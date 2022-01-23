@@ -5,7 +5,12 @@
   >
     <div class="flex items-center justify-between">
       <h3 class="text-2xl font-medium text-gray-700">Your cart</h3>
-      <button data-testid="close-button" class="text-gray-600 focus:outline-none" @click="close">
+      <button data-testid="clear-cart-button" @click="$cart.clearCart()">Clear Cart</button>
+      <button
+        data-testid="close-button"
+        class="text-gray-600 focus:outline-none"
+        @click="$cart.close()"
+      >
         <svg
           class="h-5 w-5"
           fill="none"
@@ -53,17 +58,12 @@ export default {
     },
     products: {
       type: Array,
-      default: () => []
+      required: true
     }
   },
   computed: {
     hasProducts() {
       return !!this.products.length
-    }
-  },
-  methods: {
-    close() {
-      this.$emit('close')
     }
   }
 }
