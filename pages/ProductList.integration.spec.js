@@ -122,4 +122,20 @@ describe('ProductList - integration', () => {
     expect(wrapper.vm.searchTerm).toBe('')
     expect(productCards).toHaveLength(10)
   })
+
+  it('should display the total quantity of products', async () => {
+    const { wrapper } = await mountProductList(27)
+
+    const label = wrapper.find('[data-testid="total-quantity-label"]')
+
+    expect(label.text()).toBe('27 Products')
+  })
+
+  it('should display product (singular) when there is only 1 product', async () => {
+    const { wrapper } = await mountProductList(1)
+
+    const label = wrapper.find('[data-testid="total-quantity-label"]')
+
+    expect(label.text()).toBe('1 Product')
+  })
 })
