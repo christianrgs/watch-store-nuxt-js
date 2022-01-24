@@ -7,7 +7,12 @@
         {{ quantityLabel }}
       </span>
       <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-        <product-card v-for="product in list" :key="product.id" :product="product" />
+        <product-card
+          v-for="product in list"
+          :key="product.id"
+          :product="product"
+          data-testid="product-card"
+        />
       </div>
     </div>
     <h3 v-else class="text-center text-2xl">{{ errorMessage }}</h3>
