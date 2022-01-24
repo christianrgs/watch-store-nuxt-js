@@ -12,7 +12,7 @@ module.exports = {
     requireConfigFile: false
   },
   extends: ['@nuxtjs', 'plugin:nuxt/recommended', 'prettier', 'plugin:cypress/recommended'],
-  plugins: ['cypress'],
+  plugins: ['prettier', 'cypress'],
   rules: {},
   overrides: [
     {
