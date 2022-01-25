@@ -41,6 +41,12 @@ describe('Cart', () => {
     expect(wrapper.vm).toBeDefined()
   })
 
+  it('should not display empty cart button when there are no products', () => {
+    const { wrapper } = mountCart(0)
+
+    expect(wrapper.find('[data-testid="clear-cart-button"]').exists()).toBe(false)
+  })
+
   it('should call the cartManager close method when close button gets clicked', async () => {
     const { wrapper } = mountCart()
     const spy = jest.spyOn(cartManager, 'close')
